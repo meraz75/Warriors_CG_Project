@@ -222,3 +222,8 @@
 1341006774 c:\program files (x86)\codeblocks\mingw\include\math.h
 	<_mingw.h>
 
+1648440642 source:e:\class rec\spring 22\computer graphics\cg progect\warriors_cg_project\main.cpp
+	<windows.h>
+	<GL/glut.h>
+	<math.h>
+
