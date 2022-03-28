@@ -15,7 +15,7 @@ void Idle()
 
 
 void display() {
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Hello, Moon..I dont like this color
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLineWidth(2.5);
 
