@@ -1,93 +1,79 @@
-#include <windows.h>
-#include <GL/glut.h>
-#include <math.h>>
-# define PI           3.14159265358979323846
-//GLfloat i = 0.0f;
-GLfloat l = 0.0f;
-GLfloat m = 0.0f;
-GLfloat n = 0.0f;
+#include <windows.h>  // for MS Windows
+#include <GL/glut.h>  // GLUT, include glu.h and gl.h
+#include<math.h>> // For cos & sin
 
-void Idle()
-{
-    glutPostRedisplay();//// marks the current window as needing to be redisplayed
-}
+# define PI           3.14159265358979323846 // For circle
 
 
-
+/* Handler for window-repaint event. Call back when the window first appears and
+whenever the window needs to be re-painted. */
 void display() {
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Hello, Moon..I dont like this color
-	glClear(GL_COLOR_BUFFER_BIT);
-	glLineWidth(2.5);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // Set background color to black and opaque
+	glClear(GL_COLOR_BUFFER_BIT);         // Clear the color buffer (background)
+	// Draw a Red 1x1 Square centered at origin
 
- glBegin(GL_QUADS);
-	glColor3ub(0,23,30);
-	glVertex2f(-0.1f,1.0f); //sky2
-	glVertex2f(0.3f,1.0f);
-	glVertex2f(0.3f,0.6f);
-	glVertex2f(-0.1f,0.6f);
+
+	glBegin(GL_POLYGON);              // Each set of 4 vertices form a quad
+	glColor3ub(187, 241, 250); // Red
+	glVertex2f(-1.0f, 0.0f);    // x, y
+	glVertex2f(-1.0f, 1.0f);    // x, y
+	glVertex2f(1.0f, 1.0f);    // x, y
+	glVertex2f(1.0f, 0.0f);    // x, y
+
 	glEnd();
 
-//////////////////////////////////////////////////////////////////////////////////////
-	     glPushMatrix();
-         glTranslated(0.1,0.8,0);
-         glRotatef(n,0.0,0.0,-0.1);
+	glBegin(GL_POLYGON);              // Each set of 4 vertices form a quad
+	glColor3f(0.0f, 1.0f, 0.0f); // Red
+	glVertex2f(-0.8f, 0.0f);    // x, y
+	glVertex2f(-0.8f, 0.5f);    // x, y
+	glVertex2f(-0.4f, 0.5f);    // x, y
+	glVertex2f(-0.4f, 0.0f);    // x, y
 
-         glBegin(GL_LINES);
-	glColor3ub(230,230,230);
-
-	glVertex2f(0.0f, 0.0f);
-	glVertex2f(0.18f, 0.1f);
 	glEnd();
 
-	glPopMatrix();//glPopMatrix pops the top matrix off the stack
-    n+=.1f;//n=n+.1=.2
+	glBegin(GL_POLYGON);              // Each set of 4 vertices form a quad
+	glColor3f (0.0f, 1.0f, 0.0f); // Red
+	glVertex2f(0.8f, 0.0f);    // x, y
+	glVertex2f(0.8f, 0.5f);    // x, y
+	glVertex2f(0.4f, 0.5f);    // x, y
+	glVertex2f(0.4f, 0.0f);    // x, y
 
-
-
-    glPushMatrix();
-         glTranslated(0.1,0.8,0);
-         glRotatef(m,0.0,0.0,-0.1);
-
-         glBegin(GL_LINES);
-	glColor3ub(230,230,230);
-
-	glVertex2f(0.0f, 0.0f);
-	glVertex2f(0.12f, 0.1f);
 	glEnd();
 
-	glPopMatrix();//glPopMatrix pops the top matrix off the stack
-    m+=0.03f;
 
+	// Circle
+	int i;
 
-    glPushMatrix();
-         glTranslated(0.1,0.8,0);
-         glRotatef(l,0.0,0.0,-0.1);
+	GLfloat x=.0f; GLfloat y=.8f; GLfloat radius =.2f;
+	int triangleAmount = 20; //# of triangles used to draw circle
 
-         glBegin(GL_LINES);
-	glColor3ub(230,230,230);
+	//GLfloat radius = 0.8f; //radius
+	GLfloat twicePi = 2.0f * PI;
 
-	glVertex2f(0.0f, 0.0f);
-	glVertex2f(0.02f, 0.1f);
+	glBegin(GL_TRIANGLE_FAN);
+		glVertex2f(x, y); // center of circle
+		for(i = 0; i <= triangleAmount;i++) {
+			glVertex2f(
+		            x + (radius * cos(i *  twicePi / triangleAmount)),
+			    y + (radius * sin(i * twicePi / triangleAmount))
+			);
+		}
 	glEnd();
 
-	glPopMatrix();
-    l+=0.01f;
 
 
-
-
-	glFlush();
+	glFlush();  // Render now
 }
 
-
+/* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
-	glutInit(&argc, argv);
-	glutCreateWindow("OpenGL Setup");
-	glutInitWindowSize(320, 320);
-	gluOrtho2D(-2,2,-2,2);
+	glutInit(&argc, argv);                 // Initialize GLUT
+	glutCreateWindow("OpenGL Setup"); // Create a window with the given title
+	glutInitWindowSize(320, 320);   // Set the window's initial width & height
+	glutDisplayFunc(display); // Register display callback handler for window re-paint
+	glutMainLoop();           // Enter the event-processing loop
 
-	glutDisplayFunc(display);
-	    glutIdleFunc(Idle);
-	glutMainLoop();
+
+
 	return 0;
 }
